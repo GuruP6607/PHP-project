@@ -1,7 +1,35 @@
+<?php
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $username = $_POST["username"] ?? "";
+    $password = $_POST["password"] ?? "";
+
+    if (empty($username) && empty($password)) {
+        $error = "Username and password are required.";
+    }
+    elseif (empty($username)) {
+        $error = "Username is missing.";
+    }
+    elseif (empty($password)) {
+        $error = "Password is missing.";
+    }
+    else {
+        $error = "Login successful!";
+        header("Location: index.php"); 
+        exit();
+    }
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Intenship</title>
+        <title>Login-In</title>
         <style>
             body{
                 font-family: Arial, sans-serif;
@@ -17,7 +45,8 @@
                 border: solid;
                 border-radius: 5px;
                 border-color: white;
-                
+                width: 325px;
+                table-layout: fixed;
             }
             .name{
                 background-color: white;
@@ -65,59 +94,47 @@
 
     </head>
 
+    
+
     <body bgcolor="lightblue";>
         <center> 
-            <h1>Intenship Details</h1>
-            <h2>Sign In</h2>
-            <form class="form1" action="index.php" method= "post" onsubmit="return registered();">
+            <h1>Intenship Entry</h1>
+            <form class="form1" action="login.php" method= "POST";">
                 <table class="table1">
                     <tr>
-                        <td> <input class="name" name="text1" placeholder= "Name"> </td>
+                        <td> <input class="name" type="text" name="username" placeholder= "Name"> </td>
                     </tr>
                     
                     <tr>
-                        <td> <input class="pass" type="password" placeholder="Password"></td>
+                        <td> <input class="pass" type="password" name="password" placeholder="Password"></td>
                     </tr>
 
                     <tr>
                         <td>
                             <div class="log-div">
-                                <input class="log" type="submit" value="Log in"></td> 
+                                <button type="submit" class="log">Login </button></td> 
                             </div>
+                    
                     </tr>
-
                     <tr>
-                        <td><div id="title"></div></td> <td></td>
+                        <td><center>
+                            <?php
+                                 if (!empty($error)) 
+                                 {
+                                    echo "<p style='color:red; overflow-wrap: break-word; word-wrap: break-word;'>$error</p>";
+
+                                 }
+                            ?>
+                            </center>
+                        </td>
                     </tr>
                 </table>
             </form>
         </center>
-
-       <?php 
-            if (isset($_SERVER["REQUEST_METHOD"]) &&
-    $_SERVER["REQUEST_METHOD"] === "POST") 
-            {
-                $name = htmlspecialchars($_POST["text1"]);
-            }
-               
-        ?>
-            <h5 link= "stylesheet" href="public/styles/style.css" class="profile">
-                <?php echo "you are registered, $name"; ?>
-            </h5>
-        <?php
-      
-            echo "<h5>you are registered, $name</h5>";
-            echo "<h5>$name</h5>";
-            
-        ?>
-
-
-        <script>
-            
-            
-
-        </script>
+        
     </body>
 </html>
+
+
 
 
